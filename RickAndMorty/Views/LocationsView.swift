@@ -43,6 +43,13 @@ struct LocationsView: View {
             .navigationDestination(for: ShowLocation.self) { location in
                 LocationDetailView(location: location)
             }
+            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button("OK", role: .cancel) {
+                    viewModel.errorMessage = nil
+                }
+            } message: {
+                Text(viewModel.errorMessage ?? "Unknown error")
+            }
         }
     }
 }
