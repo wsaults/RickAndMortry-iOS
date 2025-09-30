@@ -18,7 +18,7 @@ class LocationService: LocationFetching {
     func fetchLocations() async throws(NetworkError) -> [ShowLocation] {
         var url = requestURL
         if let info = pageInfo {
-            if let next = pageInfo?.next {
+            if let next = info.next {
                 url = next
             } else {
                 return []
