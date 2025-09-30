@@ -11,8 +11,16 @@ import SwiftUI
 class LocationsViewModel {
     private let locationService: LocationFetching
     var locations = [ShowLocation]()
+    var filteredLocations: [ShowLocation] {
+        if searchText.isEmpty {
+            locations
+        } else {
+            locations.filter { $0.name.localizedStandardContains(searchText) }
+        }
+    }
     var errorMessage: String?
     var isLoading = false
+    var searchText = ""
     
     init(locationService: LocationFetching) {
         self.locationService = locationService

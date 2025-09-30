@@ -24,7 +24,7 @@ struct LocationsView: View {
                                 .redacted(reason: .placeholder)
                         }
                     }
-                    ForEach(viewModel.locations) { location in
+                    ForEach(viewModel.filteredLocations) { location in
                         NavigationLink(value: location) {
                             LocationRow(location: location)
                         }
@@ -38,6 +38,7 @@ struct LocationsView: View {
                     }
                 }
             }
+            .searchable(text: $viewModel.searchText, prompt: "Search Locations")
             .task { await viewModel.fetchLocations() }
             .navigationTitle("Locations")
             .navigationDestination(for: ShowLocation.self) { location in
