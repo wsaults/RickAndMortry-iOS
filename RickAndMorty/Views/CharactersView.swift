@@ -41,8 +41,8 @@ struct CharactersView: View {
             }
             .task { await viewModel.fetchCharacters() }
             .navigationTitle("Characters")
-            .navigationDestination(for: Character.self) { character in
-                // TODO: detail view
+            .navigationDestination(for: ShowCharacter.self) { character in
+                CharacterDetailView(character: character)
             }
             .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
                 Button("OK", role: .cancel) {
