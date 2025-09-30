@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var episodeService = EpisodeService()
     @State private var characterService = CharacterService()
+    @State private var locationService = LocationService()
     
     var body: some View {
         TabView {
@@ -22,7 +23,7 @@ struct ContentView: View {
             }
             
             Tab("Locations", systemImage: "mappin.and.ellipse") {
-                Text("Locations View")
+                LocationsView(viewModel: LocationsViewModel(locationService: locationService))
             }
         }
     }

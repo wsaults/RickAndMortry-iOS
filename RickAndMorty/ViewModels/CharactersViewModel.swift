@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class CharactersViewModel {
-    private var characterService: CharacterFetching
+    private let characterService: CharacterFetching
     var characters = [ShowCharacter]()
     var errorMessage: String?
     var isLoading = false

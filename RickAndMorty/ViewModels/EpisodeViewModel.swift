@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class EpisodeViewModel {
-    private var episodeService: EpisodeFetching
+    private let episodeService: EpisodeFetching
     var episodes = [Episode]()
     var errorMessage: String?
     var isLoading = false

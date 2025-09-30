@@ -16,7 +16,6 @@ protocol EpisodeFetching {
     func fetchEpisodes() async throws -> [Episode]
 }
 
-@Observable
 class EpisodeService: EpisodeFetching {
     private var pageInfo: PageInfo?
     var episodeURL = URL(string: "https://rickandmortyapi.com/api/episode")!

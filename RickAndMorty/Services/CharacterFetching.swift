@@ -11,7 +11,6 @@ protocol CharacterFetching {
     func fetchCharacters() async throws -> [ShowCharacter]
 }
 
-@Observable
 class CharacterService: CharacterFetching {
     var pageInfo: PageInfo?
     var requestURL = URL(string: "https://rickandmortyapi.com/api/character")!
