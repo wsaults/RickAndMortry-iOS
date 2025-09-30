@@ -18,20 +18,22 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 List(viewModel.episodes) { episode in
-                    VStack(alignment: .leading) {
-                        Text(episode.name)
-                            .font(.headline)
-                        HStack {
-                            Text(episode.episode)
-                                .fontWeight(.bold)
-                            Text(episode.airDate)
+                    NavigationLink(value: episode) {
+                        VStack(alignment: .leading) {
+                            Text(episode.name)
+                                .font(.headline)
+                            HStack {
+                                Text(episode.episode)
+                                    .fontWeight(.bold)
+                                Text(episode.airDate)
+                            }
+                            .font(.footnote)
                         }
-                        .font(.footnote)
-                    }
-                    .onAppear {
-                        if episode.id == viewModel.episodes.last?.id {
-                            Task {
-                                await viewModel.fetchEpisodes()
+                        .onAppear {
+                            if episode.id == viewModel.episodes.last?.id {
+                                Task {
+                                    await viewModel.fetchEpisodes()
+                                }
                             }
                         }
                     }
@@ -39,6 +41,9 @@ struct ContentView: View {
             }
             .task { await viewModel.fetchEpisodes() }
             .navigationTitle("Episodes")
+            .navigationDestination(for: Episode.self) { episode in
+                EpisodeDetailView(episode: episode)
+            }
         }
     }
 }

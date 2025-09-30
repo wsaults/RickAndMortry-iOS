@@ -19,7 +19,7 @@ struct PageInfo: Decodable {
     let prev: URL?
 }
 
-struct Episode: Identifiable, Decodable {
+struct Episode: Identifiable, Decodable, Hashable {
     let id: Int
     let name: String
     let airDate: String
