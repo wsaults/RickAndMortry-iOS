@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case jsonDecoding
+    case badRequest
+}
+
 protocol EpisodeFetching {
     func fetchEpisodes() async throws -> [Episode]
 }
@@ -14,16 +19,9 @@ protocol EpisodeFetching {
 @Observable
 class EpisodeService: EpisodeFetching {
     private var pageInfo: PageInfo?
-    var episodeURL: URL {
-        URL(string: "https://rickandmortyapi.com/api/episode")!
-    }
+    var episodeURL = URL(string: "https://rickandmortyapi.com/api/episode")!
     
-    enum NetworkError: Error {
-        case jsonDecoding
-        case badRequest
-    }
-    
-    func fetchEpisodes() async throws -> [Episode] {
+    func fetchEpisodes() async throws(NetworkError) -> [Episode] {
         var requestURL = episodeURL
         if let pageInfo = pageInfo {
             if let url = pageInfo.next {
@@ -38,10 +36,10 @@ class EpisodeService: EpisodeFetching {
         do {
             result = try await URLSession.shared.data(for: request)
         } catch {
-            throw NetworkError.badRequest
+            throw .badRequest
         }
         
-        var episodes = [Episode]()
+        let episodes: [Episode]
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -50,7 +48,7 @@ class EpisodeService: EpisodeFetching {
             episodes = result.results
             pageInfo = result.info
         } catch {
-            throw NetworkError.jsonDecoding
+            throw .jsonDecoding
         }
         
         return episodes

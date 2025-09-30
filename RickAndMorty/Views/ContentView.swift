@@ -9,15 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var episodeService = EpisodeService()
+    @State private var characterService = CharacterService()
     
     var body: some View {
         TabView {
             Tab("Episodes", systemImage: "list.bullet") {
-                EpisodesView(viewModel: ContentViewModel(episodeService: episodeService))
+                EpisodesView(viewModel: EpisodeViewModel(episodeService: episodeService))
             }
             
             Tab("Characters", systemImage: "person.3") {
-                Text("Characters View")
+                CharactersView(viewModel: CharactersViewModel(characterService: characterService))
             }
             
             Tab("Locations", systemImage: "mappin.and.ellipse") {

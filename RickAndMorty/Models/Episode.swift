@@ -12,13 +12,6 @@ struct EpisodesResult: Decodable {
     let results: [Episode]
 }
 
-struct PageInfo: Decodable {
-    let count: Int
-    let pages: Int
-    let next: URL?
-    let prev: URL?
-}
-
 struct Episode: Identifiable, Decodable, Hashable {
     let id: Int
     let name: String

@@ -1,5 +1,5 @@
 //
-//  ContentViewModel.swift
+//  EpisodeViewModel.swift
 //  RickAndMorty
 //
 //  Created by Will Saults on 9/29/25.
@@ -8,9 +8,11 @@
 import Foundation
 
 @Observable
-class ContentViewModel {
+class EpisodeViewModel {
     private var episodeService: EpisodeFetching
     var episodes = [Episode]()
+    var errorMessage: String?
+    var isLoading = false
     
     init(episodeService: EpisodeFetching) {
         self.episodeService = episodeService
@@ -18,10 +20,12 @@ class ContentViewModel {
     
     @MainActor
     func fetchEpisodes() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
             episodes += try await episodeService.fetchEpisodes()
         } catch {
-            // TODO: Handle error
+            errorMessage = error.localizedDescription
         }
     }
 }
