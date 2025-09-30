@@ -24,7 +24,7 @@ struct CharactersView: View {
                                 .redacted(reason: .placeholder)
                         }
                     } else {
-                        ForEach(viewModel.characters) { character in
+                        ForEach(viewModel.filteredCharacers) { character in
                             NavigationLink(value: character) {
                                 CharacterRow(character: character)
                             }
@@ -38,6 +38,7 @@ struct CharactersView: View {
                         }
                     }
                 }
+                .searchable(text: $viewModel.searchText, prompt: "Search Characters")
             }
             .task { await viewModel.fetchCharacters() }
             .navigationTitle("Characters")

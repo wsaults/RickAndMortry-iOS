@@ -11,8 +11,16 @@ import SwiftUI
 class CharactersViewModel {
     private let characterService: CharacterFetching
     var characters = [ShowCharacter]()
+    var filteredCharacers: [ShowCharacter] {
+        if searchText.isEmpty {
+            characters
+        } else {
+            characters.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
     var errorMessage: String?
     var isLoading = false
+    var searchText = ""
     
     init(characterService: CharacterFetching) {
         self.characterService = characterService
