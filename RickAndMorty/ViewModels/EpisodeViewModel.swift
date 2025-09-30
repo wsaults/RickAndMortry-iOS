@@ -11,8 +11,16 @@ import Foundation
 class EpisodeViewModel {
     private let episodeService: EpisodeFetching
     var episodes = [Episode]()
+    var filteredEpisodes: [Episode] {
+        if searchText.isEmpty {
+            episodes
+        } else {
+            episodes.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
     var errorMessage: String?
     var isLoading = false
+    var searchText = ""
     
     init(episodeService: EpisodeFetching) {
         self.episodeService = episodeService

@@ -24,7 +24,7 @@ struct EpisodesView: View {
                                 .redacted(reason: .placeholder)
                         }
                     } else {
-                        ForEach(viewModel.episodes) { episode in
+                        ForEach(viewModel.filteredEpisodes) { episode in
                             NavigationLink(value: episode) {
                                 EpisodeRow(episode: episode)
                             }
@@ -38,6 +38,7 @@ struct EpisodesView: View {
                         }
                     }
                 }
+                .searchable(text: $viewModel.searchText, prompt: "Search Episodes")
             }
             .task { await viewModel.fetchEpisodes() }
             .navigationTitle("Episodes")
