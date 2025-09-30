@@ -14,7 +14,6 @@ protocol EpisodeFetching {
 @Observable
 class EpisodeService: EpisodeFetching {
     private var pageInfo: PageInfo?
-    var page: Int = 0
     var episodeURL: URL {
         URL(string: "https://rickandmortyapi.com/api/episode")!
     }
@@ -54,7 +53,6 @@ class EpisodeService: EpisodeFetching {
             throw NetworkError.jsonDecoding
         }
         
-        page += 1
         return episodes
     }
 }
