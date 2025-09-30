@@ -23,7 +23,7 @@ class CharactersViewModel {
         isLoading = true
         defer { isLoading = false }
         do {
-            characters = try await characterService.fetchCharacters()
+            characters += try await characterService.fetchCharacters()
         } catch {
             errorMessage = error.localizedDescription
         }

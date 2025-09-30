@@ -34,6 +34,7 @@ struct ShowCharacter: Identifiable, Decodable, Hashable {
     enum Gender: String, Decodable {
         case male = "Male"
         case female = "Female"
+        case genderless = "Genderless"
         case unknown = "unknown"
     }
     
