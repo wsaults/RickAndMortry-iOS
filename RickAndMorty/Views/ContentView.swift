@@ -8,50 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var viewModel: ContentViewModel
-    
-    init(viewModel: ContentViewModel) {
-        _viewModel = State(initialValue: viewModel)
-    }
+    @State private var episodeService = EpisodeService()
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                List(viewModel.episodes) { episode in
-                    NavigationLink(value: episode) {
-                        VStack(alignment: .leading) {
-                            Text(episode.name)
-                                .font(.headline)
-                            HStack {
-                                Text(episode.episode)
-                                    .fontWeight(.bold)
-                                Text(episode.airDate)
-                            }
-                            .font(.footnote)
-                        }
-                        .onAppear {
-                            if episode.id == viewModel.episodes.last?.id {
-                                Task {
-                                    await viewModel.fetchEpisodes()
-                                }
-                            }
-                        }
-                    }
-                }
+        TabView {
+            Tab("Episodes", systemImage: "list.bullet") {
+                EpisodesView(viewModel: ContentViewModel(episodeService: episodeService))
             }
-            .task { await viewModel.fetchEpisodes() }
-            .navigationTitle("Episodes")
-            .navigationDestination(for: Episode.self) { episode in
-                EpisodeDetailView(episode: episode)
+            
+            Tab("Characters", systemImage: "person.3") {
+                Text("Characters View")
+            }
+            
+            Tab("Locations", systemImage: "mappin.and.ellipse") {
+                Text("Locations View")
             }
         }
     }
 }
 
 #Preview {
-    ContentView(
-        viewModel: ContentViewModel(
-            episodeService: MockEpisodeService(episodes: Episode.mock)
-        )
-    )
+    ContentView()
 }
