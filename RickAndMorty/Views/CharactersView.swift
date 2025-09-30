@@ -59,30 +59,49 @@ struct CharacterRow: View {
     let character: ShowCharacter
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(character.name)
-                .font(.headline)
+        HStack {
+            AsyncImage(url: character.image) { image in
+                image
+                    .resizable()
+                    .frame(width: 80, height: 80)
+            } placeholder: {
+                Color.gray
+                    .opacity(0.20)
+                    .frame(width: 80, height: 80)
+            }
             
-            Text("Status: \(character.status.rawValue)")
-            
-            Text("Species: \(character.species)")
-            
-            Text("Origin: \(character.origin.name)")
+            VStack(alignment: .leading) {
+                Text(character.name)
+                    .font(.headline)
+                
+                Text("Status: \(character.status.rawValue)")
+                
+                Text("Species: \(character.species)")
+                
+                Text("Origin: \(character.origin.name)")
+            }
         }
+        
     }
 }
 
 struct CharacterRowPlaceholder: View {
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Character Name")
-                .font(.headline)
+        HStack(alignment: .center) {
+            Color.gray
+                .opacity(0.20)
+                .frame(width: 80, height: 80)
             
-            Text("Status: Alive")
-            
-            Text("Species: Human")
-            
-            Text("Origin: Earth")
+            VStack(alignment: .leading) {
+                Text("Character Name")
+                    .font(.headline)
+                
+                Text("Status: Alive")
+                
+                Text("Species: Human")
+                
+                Text("Origin: Earth")
+            }
         }
     }
 }

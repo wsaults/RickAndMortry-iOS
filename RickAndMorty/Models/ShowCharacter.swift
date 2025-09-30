@@ -28,14 +28,14 @@ struct ShowCharacter: Identifiable, Decodable, Hashable {
     enum StatusType: String, Decodable {
         case alive = "Alive"
         case dead = "Dead"
-        case unknown = "unknown"
+        case unknown
     }
     
     enum Gender: String, Decodable {
         case male = "Male"
         case female = "Female"
         case genderless = "Genderless"
-        case unknown = "unknown"
+        case unknown
     }
     
     struct LocationModel: Decodable, Hashable {
