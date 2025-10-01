@@ -8,7 +8,8 @@
 import Foundation
 
 protocol CharacterFetching {
-    func fetchCharacters() async throws -> [ShowCharacter]
+    func fetchCharacters() async throws(NetworkError) -> [ShowCharacter]
+    func fetchCharacter(from url: URL) async throws(NetworkError) -> ShowCharacter
 }
 
 class CharacterService: CharacterFetching {
@@ -47,12 +48,36 @@ class CharacterService: CharacterFetching {
         
         return characters
     }
+    
+    func fetchCharacter(from url: URL) async throws(NetworkError) -> ShowCharacter {
+        let request = URLRequest(url: url)
+        let result: (Data, URLResponse)
+        do {
+            result = try await URLSession.shared.data(for: request)
+        } catch {
+            throw .badRequest
+        }
+        
+        let character: ShowCharacter
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            character = try decoder.decode(ShowCharacter.self, from: result.0)
+        } catch {
+            throw .jsonDecoding
+        }
+        return character
+    }
 }
 
 struct MockCharacterService: CharacterFetching {
     var characters: [ShowCharacter]
     
-    func fetchCharacters() async throws -> [ShowCharacter] {
+    func fetchCharacters() async throws(NetworkError) -> [ShowCharacter] {
         characters
+    }
+    
+    func fetchCharacter(from url: URL) async throws(NetworkError) -> ShowCharacter {
+        characters[0]
     }
 }

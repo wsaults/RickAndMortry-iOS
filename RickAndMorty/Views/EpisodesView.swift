@@ -43,7 +43,7 @@ struct EpisodesView: View {
             .task { await viewModel.fetchEpisodes() }
             .navigationTitle("Episodes")
             .navigationDestination(for: Episode.self) { episode in
-                EpisodeDetailView(episode: episode)
+                EpisodeDetailView(viewModel: viewModel, episode: episode)
             }
             .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
                 Button("OK", role: .cancel) {
@@ -91,7 +91,10 @@ struct EpisodeRowPlaceholder: View {
 #Preview {
     EpisodesView(
         viewModel: EpisodeViewModel(
-            episodeService: MockEpisodeService(episodes: Episode.mock)
+            episodeService: MockEpisodeService(episodes: Episode.mock),
+            characterService: MockCharacterService(
+                characters: ShowCharacter.mock
+            )
         )
     )
 }

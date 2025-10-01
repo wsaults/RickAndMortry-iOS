@@ -10,6 +10,7 @@ import Foundation
 @Observable
 class EpisodeViewModel {
     private let episodeService: EpisodeFetching
+    private let characterService: CharacterFetching
     var episodes = [Episode]()
     var filteredEpisodes: [Episode] {
         if searchText.isEmpty {
@@ -22,8 +23,12 @@ class EpisodeViewModel {
     var isLoading = false
     var searchText = ""
     
-    init(episodeService: EpisodeFetching) {
+    init(
+        episodeService: EpisodeFetching,
+        characterService: CharacterFetching
+    ) {
         self.episodeService = episodeService
+        self.characterService = characterService
     }
     
     @MainActor
@@ -35,5 +40,16 @@ class EpisodeViewModel {
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+    
+    @MainActor
+    func fetchCharacter(from url: URL) async -> ShowCharacter? {
+        var character: ShowCharacter?
+        do {
+            character = try await characterService.fetchCharacter(from: url)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        return character
     }
 }

@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
             Tab("Episodes", systemImage: "list.bullet") {
-                EpisodesView(viewModel: EpisodeViewModel(episodeService: episodeService))
+                EpisodesView(viewModel: EpisodeViewModel(episodeService: episodeService, characterService: characterService))
             }
             
             Tab("Characters", systemImage: "person.3") {
